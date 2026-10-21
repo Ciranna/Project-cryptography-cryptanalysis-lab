@@ -1,0 +1,679 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0" />
+
+  <title>Cryptography & Cryptanalysis Lab</title>
+
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+  <main class="container">
+
+    <header class="app-header">
+      <h1>Cryptography & Cryptanalysis Lab</h1>
+
+      <p>
+        Homework 2 — Encryption, Decryption
+        and Cryptanalysis
+      </p>
+    </header>
+
+    <section class="card" id="configuration">
+      <h2>1. Message Configuration</h2>
+
+      <label for="message-input">Plaintext</label>
+
+      <textarea id="message-input" rows="3">HELLO WORLD</textarea>
+
+      <p class="hint">
+        The same message will be used for both
+        cryptographic schemes.
+      </p>
+    </section>
+
+    <section class="card" id="ecc">
+        <h2>2. ECC Encryption & Decryption</h2>
+
+        <p>
+            Encrypt and decrypt a message using
+            a toy ECDH-based scheme on secp256k1.
+        </p>
+      
+        <div class="controls">
+            <label for="ecc-private-key">
+                Bob's Private Key (1–1000)
+            </label>
+
+            <input
+                type="number"
+                id="ecc-private-key"
+                min="1"
+                max="1000"
+                step="1"
+                value="357"
+            />
+
+            <button id="ecc-encrypt-btn">
+                Encrypt with ECC
+            </button>
+
+            <button id="ecc-decrypt-btn">
+                Decrypt with ECC
+            </button>
+
+        </div>
+
+        <div id="ecc-results">
+            <div class="result-box">
+                <h3>Bob's Private Key</h3>
+                <pre id="ecc-private-output">—</pre>
+            </div>
+
+            <div class="result-box">
+                <h3>Bob's Public Key (Compressed)</h3>
+                <pre id="ecc-public-output">—</pre>
+            </div>
+
+            <div class="result-box">
+                <h3>Ephemeral Public Point R</h3>
+                <pre id="ecc-r-output">—</pre>
+            </div>
+
+            <div class="result-box">
+                <h3>Ciphertext (Hexadecimal)</h3>
+                <pre id="ecc-ciphertext-output">—</pre>
+            </div>
+
+            <div class="result-box">
+                <h3>Decrypted Message</h3>
+                <pre id="ecc-plaintext-output">—</pre>
+            </div>
+        </div>
+
+        <div class="explanation" id="ecc-tutorial">
+            <h3>How Does ECC Encryption Work?</h3>
+
+            <p>
+                Follow the six steps below to understand
+                how Alice encrypts a message for Bob
+                using elliptic-curve cryptography.
+            </p>
+
+            <p>
+                Our educational scheme combines ECDH,
+                SHA-256-based keystream derivation,
+                and XOR encryption.
+            </p>
+
+            <div class="ecc-tutorial-card">
+                <div class="ecc-tutorial-header">
+                <strong id="ecc-step-counter">Step 1 of 6</strong>
+                <span id="ecc-step-title"></span>
+                </div>
+
+                <div id="ecc-step-description"></div>
+
+                <div id="ecc-step-formula"></div>
+
+                <p id="ecc-step-note" class="hint"></p>
+
+                <div class="ecc-tutorial-navigation">
+                <button id="ecc-step-prev" type="button">
+                    Previous
+                </button>
+
+                <button id="ecc-step-next" type="button">
+                    Next Step
+                </button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="card" id="caesar">
+      <h2>3. Caesar Cipher</h2>
+
+      <p>
+        Encrypt and decrypt the plaintext
+        using a classical substitution cipher.
+      </p>
+
+      
+        <div class="controls">
+            <label for="caesar-key">Caesar Key (0–25)</label>
+
+            <input
+                type="number"
+                id="caesar-key"
+                min="0"
+                max="25"
+                step="1"
+                value="3"
+            />
+
+            <button id="caesar-encrypt-btn">
+                Encrypt Message
+            </button>
+
+            <button id="caesar-decrypt-btn">
+                Decrypt Message
+            </button>
+        </div>
+
+        <div class="result-box">
+            <h3>Encrypted Message</h3>
+            <pre id="caesar-ciphertext">—</pre>
+        </div>
+
+        <div class="result-box">
+            <h3>Decrypted Message</h3>
+            <pre id="caesar-plaintext">—</pre>
+        </div>
+
+        <div class="explanation">
+            <h3>How does the Caesar Cipher work?</h3>
+
+            <p>
+                The Caesar cipher replaces each letter with
+                another letter shifted by a fixed number
+                of positions in the alphabet.
+            </p>
+
+            <p>
+                Encryption:
+                <strong>E(x) = (x + k) mod 26</strong>
+            </p>
+
+            <p>
+                Decryption:
+                <strong>D(y) = (y - k) mod 26</strong>
+            </p>
+
+            <p>
+                The key k determines the number of positions
+                by which every letter is shifted.
+            </p>
+        </div>
+
+        <div class="alphabet-visualization">
+            <h3>Interactive Alphabet Shift</h3>
+
+            <p>Original alphabet</p>
+            <div id="original-alphabet" class="alphabet-grid"></div>
+
+            <p>Shifted alphabet</p>
+            <div id="shifted-alphabet" class="alphabet-grid"></div>
+
+            <p id="shift-explanation" class="hint"></p>
+        </div>
+
+
+        <div class="explanation" id="caesar-steps">
+            <h3>Step-by-Step Encryption</h3>
+
+            <p>
+                Each letter is converted to a number
+                from 0 to 25, shifted by the key,
+                and converted back to a letter.
+            </p>
+
+            <div id="caesar-steps-content">
+                <p class="hint">
+                Encrypt a message to see the transformation
+                of each character.
+                </p>
+            </div>
+        </div>
+
+
+    </section>
+
+    <section class="card" id="caesar-attack">
+      <h2>4. Caesar Statistical Cryptanalysis</h2>
+
+      <p>
+        Recover the Caesar key using
+        statistical analysis of letter frequencies.
+      </p>
+
+      
+        <div class="controls">
+            <button id="caesar-attack-btn">
+                Recover Caesar Key
+            </button>
+        </div>
+
+        <p id="caesar-attack-status" class="hint">
+            Encrypt a message first, then run the attack.
+        </p>
+
+        <div id="caesar-attack-results" hidden>
+            <div class="result-box">
+                <h3>Best Statistical Candidate</h3>
+                <p id="recovered-caesar-key"></p>
+                <pre id="recovered-caesar-text"></pre>
+            </div>
+            
+
+            <h3>Top 5 Candidate Keys</h3>
+
+            <div class="table-wrapper">
+                <table>
+                <thead>
+                    <tr>
+                    <th>Rank</th>
+                    <th>Key</th>
+                    <th>Chi-squared</th>
+                    <th>Plaintext preview</th>
+                    </tr>
+                </thead>
+                <tbody id="caesar-candidates-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="explanation">
+            <h3>Why does statistical cryptanalysis work?</h3>
+
+            <p>
+                English letters do not occur equally often.
+                For example, E is generally more frequent
+                than Q or Z.
+            </p>
+
+            <p>
+                The Caesar cipher shifts letter identities
+                but preserves their occurrence counts.
+                We can therefore test every key and compare
+                the resulting letter distribution with
+                typical English frequencies.
+            </p>
+
+            <p>
+                A lower chi-squared score indicates a
+                closer match to the expected distribution.
+                It does not guarantee a correct decryption,
+                especially for short ciphertexts.
+            </p>
+        </div>
+
+        <div class="explanation">
+            <h3>Letter Frequency Comparison</h3>
+
+            <p>
+                Compare the expected English letter
+                frequencies with those observed in
+                the best-ranked plaintext candidate.
+            </p>
+
+            <div id="frequency-chart">
+                <p class="hint">
+                Run the Caesar statistical attack
+                to display the frequency comparison.
+                </p>
+            </div>
+
+
+            <div class="explanation">
+                <h3>Chi-Squared Scores for All 26 Keys</h3>
+
+                <p>
+                    The attacker tries all 26 Caesar keys.
+                    Each decrypted candidate is compared with
+                    typical English letter frequencies.
+                </p>
+
+                <p>
+                    The key with the lowest chi-squared score
+                    is ranked first because its plaintext
+                    distribution is closest to the expected
+                    English distribution.
+                </p>
+
+                <p>
+                    A low score does not guarantee that the
+                    plaintext is correct, especially for
+                    short messages.
+                </p>
+
+                <div id="caesar-key-scores">
+                    <p class="hint">
+                    Run the statistical attack to compare
+                    all 26 candidate keys.
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+    <section class="card" id="caesar-experiments">
+        <h2>5. Caesar Cipher — Statistical Experiments</h2>
+
+        <p>
+            Evaluate the effectiveness of chi-squared
+            cryptanalysis on ciphertexts of different lengths.
+        </p>
+
+        <button id="run-experiments-btn">
+            Run Statistical Experiments
+        </button>
+
+        <p id="experiments-status" class="hint">
+            100 trials for each of 6 sample lengths.
+        </p>
+
+        <div id="experiments-results" hidden>
+            <h3>Key Recovery Accuracy</h3>
+
+            <div id="accuracy-chart"></div>
+
+            <h3>Experimental Results</h3>
+
+            <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>Length</th>
+                    <th>Trials</th>
+                    <th>Successes</th>
+                    <th>Accuracy</th>
+                    <th>Average Rank</th>
+                </tr>
+                </thead>
+                <tbody id="experiments-table-body"></tbody>
+            </table>
+            </div>
+
+            <div class="result-box">
+            <h3>Experimental Interpretation</h3>
+            <p id="experiments-interpretation"></p>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="card" id="ecc-attack">
+        <h2>6. ECC Private-Key Attack</h2>
+
+        <p>
+            Recover a private key by exploiting
+            an artificially restricted key space.
+        </p>
+
+      
+        <div class="controls">
+            <label for="ecc-attack-max">
+                Maximum Private Key to Test
+            </label>
+
+            <input
+                type="number"
+                id="ecc-attack-max"
+                min="1"
+                max="1000"
+                step="1"
+                value="1000"
+            />
+
+            <button id="ecc-attack-btn">
+                Recover Private Key and Decrypt
+            </button>
+        </div>
+
+        <p id="ecc-attack-status" class="hint">
+            First encrypt a message using ECC.
+        </p>
+
+        <div id="ecc-attack-results" hidden>
+            <div class="result-box">
+                <h3>Recovered Private Key</h3>
+                <pre id="ecc-recovered-key"></pre>
+            </div>
+
+            <div class="result-box">
+                <h3>Number of Attempts</h3>
+                <pre id="ecc-attack-attempts"></pre>
+            </div>
+
+            <div class="result-box">
+                <h3>Recovered Plaintext</h3>
+                <pre id="ecc-attack-plaintext"></pre>
+            </div>
+        </div>
+
+
+        <div id="ecc-attack-visualization" class="ecc-lab" hidden>
+            <h3>Eve's Brute-Force Laboratory</h3>
+
+            <p>
+                Eve compares each candidate public key d × G
+                against Bob's public key Q.
+            </p>
+
+            <div class="ecc-lab-progress">
+                <div class="ecc-lab-progress-info">
+                <span>Attack progress</span>
+                <strong id="ecc-visual-progress-label">0 / 1000</strong>
+                </div>
+
+                <progress
+                id="ecc-visual-progress"
+                value="0"
+                max="1000"
+                ></progress>
+            </div>
+
+            <div class="ecc-lab-current">
+                <p>Current candidate private key</p>
+                <div id="ecc-visual-candidate" class="ecc-lab-number">
+                —
+                </div>
+
+                <p id="ecc-visual-equation">d × G = ?</p>
+
+                <p id="ecc-visual-match" class="hint">
+                Start the visualization to inspect the attack.
+                </p>
+            </div>
+
+            <div class="controls">
+                <button type="button" id="ecc-visual-prev">
+                Previous Attempt
+                </button>
+
+                <button type="button" id="ecc-visual-next">
+                Next Attempt
+                </button>
+
+                <button type="button" id="ecc-visual-finish">
+                Show Final Result
+                </button>
+
+                <button type="button" id="ecc-visual-reset">
+                Reset Visualization
+                </button>
+            </div>
+
+            <h4>Candidate Public Key</h4>
+            <pre id="ecc-visual-public-key">—</pre>
+
+            <h4>Bob's Target Public Key</h4>
+            <pre id="ecc-visual-target-key">—</pre>
+
+            <h4>Recent Attempts</h4>
+
+            <div class="ecc-lab-table-wrapper">
+                <table class="ecc-lab-table">
+                <thead>
+                    <tr>
+                    <th>Candidate</th>
+                    <th>Operation</th>
+                    <th>Comparison</th>
+                    </tr>
+                </thead>
+
+                <tbody id="ecc-visual-attempts"></tbody>
+                </table>
+            </div>
+
+            <p id="ecc-visual-explanation" class="hint"></p>
+        </div>
+
+
+    </section>
+
+    
+    <section class="card" id="conclusions">
+    <h2>7. Scientific Comparison</h2>
+
+    <p>
+        Comparison of encryption mechanisms,
+        key spaces, statistical properties,
+        and cryptanalytic weaknesses.
+    </p>
+
+    <div class="table-wrapper">
+        <table>
+        <thead>
+            <tr>
+            <th>Property</th>
+            <th>Caesar Cipher</th>
+            <th>Educational ECC Scheme</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+            <td>Cryptographic approach</td>
+            <td>Symmetric substitution cipher</td>
+            <td>Public-key ECDH + SHA-256 + XOR</td>
+            </tr>
+
+            <tr>
+            <td>Encryption mechanism</td>
+            <td>Alphabet shift modulo 26</td>
+            <td>XOR with a derived keystream</td>
+            </tr>
+
+            <tr>
+            <td>Decryption mechanism</td>
+            <td>Reverse alphabet shift</td>
+            <td>Reconstruct keystream and apply XOR</td>
+            </tr>
+
+            <tr>
+            <td>Key space in this experiment</td>
+            <td>26 possible shifts</td>
+            <td>1,000 possible private keys</td>
+            </tr>
+
+            <tr>
+            <td>Main weakness</td>
+            <td>
+                Small key space and preserved
+                letter-frequency distribution
+            </td>
+            <td>
+                Artificially restricted
+                private-key space
+            </td>
+            </tr>
+
+            <tr>
+            <td>Attack</td>
+            <td>
+                Exhaustive search with
+                chi-squared ranking
+            </td>
+            <td>
+                Exhaustive search over
+                candidate private keys
+            </td>
+            </tr>
+
+            <tr>
+            <td>Information exploited</td>
+            <td>
+                Statistical properties
+                of the plaintext language
+            </td>
+            <td>
+                Public key and knowledge
+                of the restricted key range
+            </td>
+            </tr>
+
+            <tr>
+            <td>Effect of message length</td>
+            <td>
+                Longer texts generally improve
+                statistical key identification
+            </td>
+            <td>
+                Private-key recovery does not
+                depend on message length
+            </td>
+            </tr>
+
+            <tr>
+            <td>Real-world security</td>
+            <td>Insecure</td>
+            <td>
+                Educational construction only;
+                not secure for real-world use
+            </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+
+    <div class="result-box">
+        <h3>Main Scientific Conclusion</h3>
+
+        <p>
+        Caesar cryptanalysis exploits the statistical
+        structure of natural language and a very small
+        key space. Its automatic key identification
+        becomes generally more reliable as the
+        ciphertext length increases.
+        </p>
+
+        <p>
+        The ECC brute-force attack exploits an
+        artificially restricted private-key range.
+        It does not depend on the statistical
+        distribution of the plaintext.
+        </p>
+
+        <p>
+        Properly generated secp256k1 private keys
+        have an enormous search space, making
+        exhaustive recovery computationally
+        infeasible with current classical methods.
+        </p>
+    </div>
+    </section>
+
+
+    <footer>
+      Educational demonstration only.
+      Not suitable for protecting real messages.
+    </footer>
+
+  </main>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
